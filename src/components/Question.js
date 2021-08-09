@@ -1,0 +1,53 @@
+/* eslint-disable max-len */
+import React, { Component } from 'react';
+import { fetchAllQuotes } from '../services/FuturamaApi';
+import QuestionItem from './QuestionItem.js';
+
+export default class Question extends Component {
+    state = {
+      all_quotes: [],
+      current_questions: [],
+      scores: 0
+    }
+doFetch = async () => {
+  const allQuotes = await fetchAllQuotes();
+  this.setState({ all_quotes: allQuotes });
+  await this.setCurrentQuestion();
+}
+
+componentDidMount = async () => {
+  await this.doFetch();
+}
+
+setCurrentQuestion = () => {
+  const allQuotes = this.state.all_quotes;
+  const accu = [];
+
+  for(let i = 0; i < this.props.questionAmount; i++) {
+    const randomIndex = Math.floor(Math.random() * allQuotes.length);
+    const quote = this.state.all_quotes[randomIndex];
+    accu.push(quote);
+  }
+  this.setState({ current_questions: accu });
+}
+
+handleAnswer = async (answer, chosen, e) => {
+  e.preventDefault();
+  if(answer === chosen) {
+    this.state.scores = this.state.scores + 1;
+  }
+}
+
+
+render() {
+  
+  return (
+    <div>
+      <p>{this.state.scores}</p>
+      {
+        this.state.current_questions.map((question, i) => <QuestionItem quote={question} key={i} event={this.handleAnswer} />)
+      }
+    </div>
+  );
+}
+}

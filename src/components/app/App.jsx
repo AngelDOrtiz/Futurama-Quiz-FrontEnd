@@ -1,5 +1,6 @@
 import React from 'react';
+import Question from '../Question';
 
 export default function App() {
-  return <h1>Hello World</h1>;
+  return <Question questionAmount={3} />;
 }
