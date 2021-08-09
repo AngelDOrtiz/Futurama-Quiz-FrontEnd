@@ -1,10 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import Question from './Question';
 
 export default class QuestionItem extends Component {
+  state = {
+    value: ''
+  }
+
   render() {
-    const answer = this.props.quote.character;
+    const answer = this.props.quote.name;
     const characters = [
       'Bender',
       'Fry',
@@ -24,17 +29,27 @@ export default class QuestionItem extends Component {
       'Kif',
       'Don bot'
     ];
+   
+    const handleChange = event => {
+      console.log(event.target.value, 'event target value');
+      this.setState({
+        value: event.target.value
+      });
+    };
+
+    console.log(this.props, 'this.props');
+    // console.log(event.target.characters, '========');
     return (
       <label>
         <div>
           <h2>Who said: {this.props.quote.text}</h2>   
         </div>
-        <form onSubmit={() => this.props.event(answer, this.target.value)}>
+        <form onSubmit={(e) => this.props.event(answer, this.state.value, e)}>
           Characters
           <label>
-            <select>
+            <select onChange={handleChange}>
               {
-                characters.map((character, i) => <option value={character} key={i}>{character}</option>)
+                characters.map((character, i) => <option id={character} value={character} key={i}>{character}</option>)
               }
             </select>
           </label>

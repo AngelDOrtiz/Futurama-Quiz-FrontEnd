@@ -1,0 +1,34 @@
+/* eslint-disable max-len */
+import React from 'react';
+import PropTypes from 'prop-types';
+
+function QuestionItem({ quote, characters, onSubmit }) {
+  console.log(quote, characters, '333333333333333');
+  return (
+    <label>
+      <div>
+        <h2>Who said: {quote.text}</h2>   
+      </div>
+      <form onSubmit={onSubmit}>
+          Characters
+        <label>
+          <select>
+            {
+              characters.map((character, i) => <option value={character} key={i}>{character}</option>)
+            }
+          </select>
+        </label>
+        <button>Submit</button>
+      </form>
+    </label>
+  );
+}
+
+QuestionItem.propTypes = {
+  quote: PropTypes.string.isRequired,
+  characters: PropTypes.array.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default QuestionItem;
+
